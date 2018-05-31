@@ -21,6 +21,11 @@
         </dependency>
         <dependency>
             <groupId>com.my.app</groupId>
+            <artifactId>chemistry-wrapper</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.my.app</groupId>
             <artifactId>rest-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

@@ -2,16 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-		<groupId>com.my</groupId>
-		<artifactId>osgi-test</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+    <artifactId>osgi-test</artifactId>
+    <groupId>com.my</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
     <groupId>com.my.app</groupId>
-    <artifactId>cmis-repository</artifactId>
+    <artifactId>chemistry-wrapper</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <description>The CMIS Repository DS component - built using OSGi enRoute R7</description>
+    <description>The chemistry-wrapper API bundle - built using OSGi enRoute R7</description>
 
     <dependencies>
         <dependency>
@@ -19,23 +19,23 @@
             <artifactId>osgi-api</artifactId>
             <type>pom</type>
         </dependency>
-        <dependency>
-            <groupId>org.osgi.enroute</groupId>
-            <artifactId>test-bundles</artifactId>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-			<groupId>com.my.app</groupId>
-			<artifactId>api</artifactId>
-			<version>1.0-SNAPSHOT</version>
-        </dependency>
-
+        
         <dependency>
             <groupId>org.apache.chemistry.opencmis</groupId>
             <artifactId>chemistry-opencmis-client-api</artifactId>
             <version>1.1.0</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>org.apache.chemistry.opencmis</groupId>
+            <artifactId>chemistry-opencmis-client-impl</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.chemistry.opencmis</groupId>
+            <artifactId>chemistry-opencmis-client-bindings</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+     </dependencies>
 
     <build>
         <plugins>
@@ -44,6 +44,10 @@
             <plugin>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>bnd-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>bnd-baseline-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

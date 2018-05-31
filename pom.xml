@@ -238,5 +238,6 @@
     <module>rest-service</module>
     <module>cmis-repository</module>
     <module>my-app</module>
+    <module>chemistry-wrapper</module>
   </modules>
 </project>

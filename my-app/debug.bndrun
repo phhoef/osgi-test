@@ -1,4 +1,4 @@
--include: ~connexas4-app.bndrun
+-include: ~my-app.bndrun
 
 test-index: target/test-index.xml
 
@@ -14,7 +14,7 @@ test-index: target/test-index.xml
 -runbundles: \
 	ch.qos.logback.classic;version='[1.2.3,1.2.4)',\
 	ch.qos.logback.core;version='[1.2.3,1.2.4)',\
-    com.my.app.api;version='[1.0.0,1.0.1)',\
+	com.my.app.api;version='[1.0.0,1.0.1)',\
 	com.my.app.cmis-repository;version='[1.0.0,1.0.1)',\
 	com.my.app.rest-service;version='[1.0.0,1.0.1)',\
 	org.apache.aries.javax.annotation-api;version='[0.0.1,0.0.2)',\
@@ -35,4 +35,9 @@ test-index: target/test-index.xml
 	org.osgi.service.jaxrs;version='[1.0.0,1.0.1)',\
 	org.osgi.util.function;version='[1.1.0,1.1.1)',\
 	org.osgi.util.promise;version='[1.1.0,1.1.1)',\
-	slf4j.api;version='[1.7.25,1.7.26)'
+	slf4j.api;version='[1.7.25,1.7.26)',\
+	com.my.app.chemistry-wrapper;version='[1.0.0,1.0.1)',\
+	org.apache.chemistry.opencmis.chemistry-opencmis-commons-api;version='[1.1.0,1.1.1)',\
+	osgi.cmpn;version='[4.3.1,4.3.2)',\
+	stax2-api;version='[3.1.4,3.1.5)',\
+	woodstox-core-asl;version='[4.4.1,4.4.2)'
