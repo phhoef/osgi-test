@@ -1,8 +1,8 @@
-package com.my.app.rest;
+package com.my.app.rest.rest;
 
-import com.my.app.repository.IRepository;
-import com.my.app.repository.exception.RepositoryItemNotFoundException;
-import com.my.app.repository.exception.RepositoryUnauthorizedException;
+import com.my.app.rest.repository.IRepository;
+import com.my.app.rest.repository.exception.RepositoryItemNotFoundException;
+import com.my.app.rest.repository.exception.RepositoryUnauthorizedException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.propertytypes.JaxrsResource;
@@ -26,7 +26,7 @@ public class ServerInfoControllerImpl
     {
         try
         {
-           return _repository.getRepository(repoName).toString();
+           return _repository.getRepository(repoName).getRepoName();
         }
         catch (RepositoryUnauthorizedException rue)
         {

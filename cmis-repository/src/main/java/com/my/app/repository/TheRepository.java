@@ -1,9 +1,9 @@
-package com.my.app.repository.alfresco;
+package com.my.app.repository;
 
-import com.my.app.repository.IRepository;
-import com.my.app.repository.dto.Repository;
-import com.my.app.repository.exception.RepositoryItemNotFoundException;
-import com.my.app.repository.exception.RepositoryUnauthorizedException;
+import com.my.app.rest.repository.IRepository;
+import com.my.app.rest.repository.dto.Repository;
+import com.my.app.rest.repository.exception.RepositoryItemNotFoundException;
+import com.my.app.rest.repository.exception.RepositoryUnauthorizedException;
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Property;
 import org.apache.chemistry.opencmis.client.api.Session;

@@ -1,4 +1,4 @@
-package com.my.app.repository.dto;
+package com.my.app.rest.repository.dto;
 
 public class Repository
 {

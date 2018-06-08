@@ -1,4 +1,4 @@
-package com.my.app.repository.exception;
+package com.my.app.rest.repository.exception;
 
 public class RepositoryItemNotFoundException extends Exception
 {
