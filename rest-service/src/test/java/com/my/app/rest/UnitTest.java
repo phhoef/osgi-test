@@ -5,24 +5,27 @@ import com.my.app.rest.repository.dto.Repository;
 import com.my.app.rest.repository.exception.RepositoryItemNotFoundException;
 import com.my.app.rest.repository.exception.RepositoryUnauthorizedException;
 import com.my.app.rest.rest.ServerInfoControllerImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+
 public class UnitTest
 {
-    @InjectMocks ServerInfoControllerImpl _serverInfoController;
-    @Mock private IRepository _repository;
+    @InjectMocks
+    ServerInfoControllerImpl _serverInfoController;
+    @Mock
+    private IRepository _repository;
 
     private String _repoName = "TestRepository";
 
-    @BeforeEach
+    @Before
     public void initialize() throws RepositoryUnauthorizedException, RepositoryItemNotFoundException
     {
         MockitoAnnotations.initMocks(this);
