@@ -1,6 +1,6 @@
 package com.my.app.rest.repository;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class UnitTest {
     
