@@ -6,6 +6,7 @@ import com.my.app.rest.repository.exception.RepositoryUnauthorizedException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.propertytypes.JaxrsResource;
+import org.osgi.service.log.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,12 +21,16 @@ public class ServerInfoControllerImpl
     @Reference
     private IRepository _repository;
 
+    @Reference
+    private Logger _logger;
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getServerInfo(@QueryParam(REPOSITORY_NAME) String repoName)
     {
         try
         {
+            _logger.debug("Getting repository for Name {}", repoName);
            return _repository.getRepository(repoName).getRepoName();
         }
         catch (RepositoryUnauthorizedException rue)

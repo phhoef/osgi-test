@@ -35,8 +35,8 @@ public class UnitTest
     @Test
     public void testSomething() throws RepositoryUnauthorizedException, RepositoryItemNotFoundException
     {
-        Repository result = _repository.getRepository(_repoName);
+        String result = _serverInfoController.getServerInfo(_repoName);
 
-        assertEquals(_repoName, result.getRepoName());
+        assertEquals(_repoName, result);
     }
 }
