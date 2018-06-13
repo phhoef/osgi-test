@@ -6,8 +6,10 @@ import com.my.app.rest.repository.exception.RepositoryUnauthorizedException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.propertytypes.JaxrsResource;
-import org.osgi.service.log.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -16,17 +18,16 @@ import javax.ws.rs.core.MediaType;
 @Path("serverInfo")
 public class ServerInfoControllerImpl
 {
+    private static final Logger _logger = LoggerFactory.getLogger(ServerInfoControllerImpl.class);
+
     private static final String REPOSITORY_NAME = "repoName";
 
     @Reference
     private IRepository _repository;
 
-    @Reference
-    private Logger _logger;
-
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getServerInfo(@QueryParam(REPOSITORY_NAME) String repoName)
+    public String getServerInfo(@NotNull @QueryParam(REPOSITORY_NAME) String repoName)
     {
         try
         {
