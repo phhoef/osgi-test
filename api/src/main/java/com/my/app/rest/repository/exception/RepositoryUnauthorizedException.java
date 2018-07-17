@@ -1,6 +1,6 @@
 package com.my.app.rest.repository.exception;
 
-public class RepositoryUnauthorizedException extends Exception
+public class RepositoryUnauthorizedException extends RuntimeException
 {
     public RepositoryUnauthorizedException() {
     }

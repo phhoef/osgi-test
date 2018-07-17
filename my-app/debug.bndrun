@@ -1,6 +1,6 @@
 -include: ~my-app.bndrun
 
-test-index: target/test-index.xml
+test-index: target/test-index.xml;name="my-app Test"
 
 -resolve.effective: active
 -standalone: ${index},${test-index}

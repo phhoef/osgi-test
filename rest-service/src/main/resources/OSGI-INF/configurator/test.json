@@ -1,0 +1,15 @@
+{
+  // Resource Format Version
+  ":configurator:resource-version" : 1,
+
+  // First Configuration
+  "my.config~system1":
+  {
+    "test.securityEnabled": false
+  },
+  // Second Configuration
+  "my.config~system2":
+  {
+    "test.securityEnabled": true
+  }
+}
