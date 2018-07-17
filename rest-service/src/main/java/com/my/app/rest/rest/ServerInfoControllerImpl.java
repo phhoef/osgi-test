@@ -3,21 +3,25 @@ package com.my.app.rest.rest;
 import com.my.app.rest.repository.IRepository;
 import com.my.app.rest.repository.exception.RepositoryItemNotFoundException;
 import com.my.app.rest.repository.exception.RepositoryUnauthorizedException;
-import com.my.app.rest.rest.config.MyConfig;
-import org.osgi.service.component.annotations.*;
+import org.osgi.framework.Filter;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.service.jaxrs.whiteboard.propertytypes.JaxrsResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Map;
 
 import static com.my.app.rest.rest.ParamConstants.REPO_NAME;
 import static com.my.app.rest.rest.ParamConstants.SIGNATURE;
 
-@Component(service=ServerInfoControllerImpl.class,
-        configurationPid = "my.config",
-        configurationPolicy = ConfigurationPolicy.OPTIONAL)
+@Component(service=ServerInfoControllerImpl.class)
 @JaxrsResource
 @Path("serverInfo")
 public class ServerInfoControllerImpl
@@ -27,31 +31,28 @@ public class ServerInfoControllerImpl
     @Reference
     private IRepository _repository;
 
-    @Reference
-    private SecurityChecker _securityChecker;
-
-    private MyConfig _config;
-
-    @Activate
-    public void activate(MyConfig config)
-    {
-        _config = config;
-    }
-
-    @Modified
-    public void modified(MyConfig config)
-    {
-        _config = config;
-    }
+    @Reference(policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
+    private volatile Map<Map<String, Object>, SecurityChecker> _securityCheckers;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getServerInfo(@QueryParam(REPO_NAME) String repoName,
                                 @QueryParam(SIGNATURE) String signature)
     {
+        try
+        {
+            Filter filter = FrameworkUtil.createFilter("(repoName=" + repoName + ")");
+            SecurityChecker securityChecker = _securityCheckers.entrySet().stream().filter(e -> filter.matches(e.getKey())).map(Map.Entry::getValue).findFirst().orElse(null);
 
-        if(_config.isSecurityEnabled())
-            _securityChecker.isSecure(repoName, signature);
+            if(securityChecker == null)
+                throw new InternalServerErrorException();
+
+            securityChecker.isSecure(repoName, signature);
+        }
+        catch(InvalidSyntaxException ise)
+        {
+            throw new InternalServerErrorException(ise);
+        }
 
         // if we pass the isSecure method, the security is successfully checked
 
