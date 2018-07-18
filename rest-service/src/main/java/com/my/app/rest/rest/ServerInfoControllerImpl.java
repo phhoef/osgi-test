@@ -11,8 +11,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.service.jaxrs.whiteboard.propertytypes.JaxrsResource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -26,12 +26,13 @@ import static com.my.app.rest.rest.ParamConstants.SIGNATURE;
 @Path("serverInfo")
 public class ServerInfoControllerImpl
 {
-    private static final Logger _logger = LoggerFactory.getLogger(ServerInfoControllerImpl.class);
+    @Reference(service = LoggerFactory.class)
+    private Logger _logger;
 
     @Reference
     private IRepository _repository;
 
-    @Reference(policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
+    //@Reference(policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
     private volatile Map<Map<String, Object>, SecurityChecker> _securityCheckers;
 
     @GET
@@ -39,35 +40,40 @@ public class ServerInfoControllerImpl
     public String getServerInfo(@QueryParam(REPO_NAME) String repoName,
                                 @QueryParam(SIGNATURE) String signature)
     {
-        try
-        {
-            Filter filter = FrameworkUtil.createFilter("(repoName=" + repoName + ")");
-            SecurityChecker securityChecker = _securityCheckers.entrySet().stream().filter(e -> filter.matches(e.getKey())).map(Map.Entry::getValue).findFirst().orElse(null);
+        _logger.debug("Reponame" + repoName);
+        _logger.error("Signature: " + signature);
 
-            if(securityChecker == null)
-                throw new InternalServerErrorException();
+        return repoName + " " + signature;
 
-            securityChecker.isSecure(repoName, signature);
-        }
-        catch(InvalidSyntaxException ise)
-        {
-            throw new InternalServerErrorException(ise);
-        }
-
-        // if we pass the isSecure method, the security is successfully checked
-
-        try
-        {
-            _logger.debug("Getting repository for Name {}", repoName);
-           return _repository.getRepository(repoName).getRepoName();
-        }
-        catch (RepositoryUnauthorizedException rue)
-        {
-            throw new NotAuthorizedException(rue.getMessage(), rue);
-        }
-        catch (RepositoryItemNotFoundException rinfe)
-        {
-            throw new NotFoundException(rinfe.getMessage(), rinfe);
-        }
+//        try
+//        {
+//            Filter filter = FrameworkUtil.createFilter("(repoName=" + repoName + ")");
+//            SecurityChecker securityChecker = _securityCheckers.entrySet().stream().filter(e -> filter.matches(e.getKey())).map(Map.Entry::getValue).findFirst().orElse(null);
+//
+//            if(securityChecker == null)
+//                throw new InternalServerErrorException();
+//
+//            securityChecker.isSecure(repoName, signature);
+//        }
+//        catch(InvalidSyntaxException ise)
+//        {
+//            throw new InternalServerErrorException(ise);
+//        }
+//
+//        // if we pass the isSecure method, the security is successfully checked
+//
+//        try
+//        {
+//            _logger.debug("Getting repository for Name {}", repoName);
+//           return _repository.getRepository(repoName).getRepoName();
+//        }
+//        catch (RepositoryUnauthorizedException rue)
+//        {
+//            throw new NotAuthorizedException(rue.getMessage(), rue);
+//        }
+//        catch (RepositoryItemNotFoundException rinfe)
+//        {
+//            throw new NotFoundException(rinfe.getMessage(), rinfe);
+//        }
     }
 }

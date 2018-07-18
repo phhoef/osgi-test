@@ -43,19 +43,18 @@
             <artifactId>validation-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.log</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.log.extension</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>1.3.3</version>
         </dependency>
-
     </dependencies>
 
     <build>
