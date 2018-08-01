@@ -13,8 +13,7 @@ index: target/index.xml
 -runee: JavaSE-1.8
 
 -runbundles: \
-	ch.qos.logback.classic;version='[1.2.3,1.2.4)',\
-	ch.qos.logback.core;version='[1.2.3,1.2.4)',\
+	org.apache.felix.logback;version='[1.0.0,1.0.1)',\
 	com.my.app.api;version='[1.0.0,1.0.1)',\
 	com.my.app.cmis-repository;version='[1.0.0,1.0.1)',\
 	com.my.app.rest-service;version='[1.0.0,1.0.1)',\
