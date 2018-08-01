@@ -32,7 +32,7 @@ public class ServerInfoControllerImpl
     @Reference
     private IRepository _repository;
 
-    //@Reference(policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
+    @Reference(policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
     private volatile Map<Map<String, Object>, SecurityChecker> _securityCheckers;
 
     @GET
@@ -40,40 +40,40 @@ public class ServerInfoControllerImpl
     public String getServerInfo(@QueryParam(REPO_NAME) String repoName,
                                 @QueryParam(SIGNATURE) String signature)
     {
-        _logger.debug("Reponame" + repoName);
-        _logger.error("Signature: " + signature);
+        //_logger.debug("Reponame" + repoName);
+        //_logger.error("Signature: " + signature);
 
-        return repoName + " " + signature;
+        //return repoName + " " + signature;
 
-//        try
-//        {
-//            Filter filter = FrameworkUtil.createFilter("(repoName=" + repoName + ")");
-//            SecurityChecker securityChecker = _securityCheckers.entrySet().stream().filter(e -> filter.matches(e.getKey())).map(Map.Entry::getValue).findFirst().orElse(null);
-//
-//            if(securityChecker == null)
-//                throw new InternalServerErrorException();
-//
-//            securityChecker.isSecure(repoName, signature);
-//        }
-//        catch(InvalidSyntaxException ise)
-//        {
-//            throw new InternalServerErrorException(ise);
-//        }
-//
-//        // if we pass the isSecure method, the security is successfully checked
-//
-//        try
-//        {
-//            _logger.debug("Getting repository for Name {}", repoName);
-//           return _repository.getRepository(repoName).getRepoName();
-//        }
-//        catch (RepositoryUnauthorizedException rue)
-//        {
-//            throw new NotAuthorizedException(rue.getMessage(), rue);
-//        }
-//        catch (RepositoryItemNotFoundException rinfe)
-//        {
-//            throw new NotFoundException(rinfe.getMessage(), rinfe);
-//        }
+        try
+        {
+            Filter filter = FrameworkUtil.createFilter("(repoName=" + repoName + ")");
+            SecurityChecker securityChecker = _securityCheckers.entrySet().stream().filter(e -> filter.matches(e.getKey())).map(Map.Entry::getValue).findFirst().orElse(null);
+
+            if(securityChecker == null)
+                throw new InternalServerErrorException();
+
+            securityChecker.isSecure(repoName, signature);
+        }
+        catch(InvalidSyntaxException ise)
+        {
+            throw new InternalServerErrorException(ise);
+        }
+
+        // if we pass the isSecure method, the security is successfully checked
+
+        try
+        {
+            _logger.debug("Getting repository for Name {}", repoName);
+           return _repository.getRepository(repoName).getRepoName();
+        }
+        catch (RepositoryUnauthorizedException rue)
+        {
+            throw new NotAuthorizedException(rue.getMessage(), rue);
+        }
+        catch (RepositoryItemNotFoundException rinfe)
+        {
+            throw new NotFoundException(rinfe.getMessage(), rinfe);
+        }
     }
 }
