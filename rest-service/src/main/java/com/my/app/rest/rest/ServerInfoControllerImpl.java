@@ -6,16 +6,15 @@ import com.my.app.rest.repository.exception.RepositoryUnauthorizedException;
 import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
+import org.osgi.service.component.annotations.*;
 import org.osgi.service.jaxrs.whiteboard.propertytypes.JaxrsResource;
 import org.osgi.service.log.Logger;
 import org.osgi.service.log.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Dictionary;
+import java.util.List;
 import java.util.Map;
 
 import static com.my.app.rest.rest.ParamConstants.REPO_NAME;
@@ -32,8 +31,8 @@ public class ServerInfoControllerImpl
     @Reference
     private IRepository _repository;
 
-    @Reference(policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
-    private volatile Map<Map<String, Object>, SecurityChecker> _securityCheckers;
+    @Reference(policyOption = ReferencePolicyOption.GREEDY)
+    private volatile List<ISecurityChecker> _securityCheckers;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -48,12 +47,12 @@ public class ServerInfoControllerImpl
         try
         {
             Filter filter = FrameworkUtil.createFilter("(repoName=" + repoName + ")");
-            SecurityChecker securityChecker = _securityCheckers.entrySet().stream().filter(e -> filter.matches(e.getKey())).map(Map.Entry::getValue).findFirst().orElse(null);
+            //ISecurityChecker securityChecker = _securityCheckers.entrySet().stream().filter(e -> filter.matches(e.getKey())).map(Map.Entry::getValue).findFirst().orElse(null);
 
-            if(securityChecker == null)
-                throw new InternalServerErrorException();
+            //if(securityChecker == null)
+               // throw new InternalServerErrorException();
 
-            securityChecker.isSecure(repoName, signature);
+            //securityChecker.isSecure(repoName, signature);
         }
         catch(InvalidSyntaxException ise)
         {

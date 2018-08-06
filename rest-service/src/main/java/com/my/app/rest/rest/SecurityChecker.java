@@ -5,13 +5,17 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.configurator.annotations.RequireConfigurator;
 
 import javax.ws.rs.NotAuthorizedException;
 
-@Component(service = SecurityChecker.class,
+import static org.osgi.service.cm.ConfigurationAdmin.SERVICE_FACTORYPID;
+
+@RequireConfigurator
+@Component(service = ISecurityChecker.class,
             configurationPid = "my.config",
-            configurationPolicy = ConfigurationPolicy.OPTIONAL)
-public class SecurityChecker
+            configurationPolicy = ConfigurationPolicy.REQUIRE)
+public class SecurityChecker implements ISecurityChecker
 {
     private MyConfig _myConfig;
 
@@ -27,10 +31,11 @@ public class SecurityChecker
         _myConfig = config;
     }
 
+    @Override
     public boolean isSecure(String name, String signature)
     {
-        if(!_myConfig.isSecurityEnabled())
-            return true;
+//        if(!_myConfig.isSecurityEnabled())
+//            return true;
 
         if(name.equals(signature))
             // do some fancy checks

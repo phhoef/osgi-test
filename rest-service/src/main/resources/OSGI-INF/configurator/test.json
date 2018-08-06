@@ -5,11 +5,13 @@
   // First Configuration
   "my.config~system1":
   {
-    "test.securityEnabled": false
+    "test.securityEnabled": false,
+    "test.name": "System1"
   },
   // Second Configuration
   "my.config~system2":
   {
-    "test.securityEnabled": true
+    "test.securityEnabled": true,
+    "test.name": "System2"
   }
 }
