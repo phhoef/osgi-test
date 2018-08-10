@@ -6,14 +6,16 @@ import com.my.app.rest.repository.exception.RepositoryUnauthorizedException;
 import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.service.component.annotations.*;
+import org.osgi.service.component.annotations.CollectionType;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.service.jaxrs.whiteboard.propertytypes.JaxrsResource;
 import org.osgi.service.log.Logger;
 import org.osgi.service.log.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +33,8 @@ public class ServerInfoControllerImpl
     @Reference
     private IRepository _repository;
 
-    @Reference(policyOption = ReferencePolicyOption.GREEDY)
-    private volatile List<ISecurityChecker> _securityCheckers;
+    @Reference
+    private MultiTenantSecurityChecker _multiTenantSecurityChecker;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -44,20 +46,7 @@ public class ServerInfoControllerImpl
 
         //return repoName + " " + signature;
 
-        try
-        {
-            Filter filter = FrameworkUtil.createFilter("(repoName=" + repoName + ")");
-            //ISecurityChecker securityChecker = _securityCheckers.entrySet().stream().filter(e -> filter.matches(e.getKey())).map(Map.Entry::getValue).findFirst().orElse(null);
-
-            //if(securityChecker == null)
-               // throw new InternalServerErrorException();
-
-            //securityChecker.isSecure(repoName, signature);
-        }
-        catch(InvalidSyntaxException ise)
-        {
-            throw new InternalServerErrorException(ise);
-        }
+        _multiTenantSecurityChecker.isSecure(repoName, signature);
 
         // if we pass the isSecure method, the security is successfully checked
 

@@ -34,8 +34,8 @@ public class SecurityChecker implements ISecurityChecker
     @Override
     public boolean isSecure(String name, String signature)
     {
-//        if(!_myConfig.isSecurityEnabled())
-//            return true;
+        if(!_myConfig.test_securityEnabled())
+            return true;
 
         if(name.equals(signature))
             // do some fancy checks
