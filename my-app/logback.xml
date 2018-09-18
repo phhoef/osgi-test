@@ -11,6 +11,13 @@
         </encoder>
     </appender>
 
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- <pattern>%d{HH:mm:ss.SSS} [%.15thread] %-5level %logger{36}:%line - %msg%n</pattern> -->
+			<pattern>[%.15thread] %-5level %logger{36}:%line - %msg%n</pattern>
+		</encoder>
+	</appender>
+
     <!-- log all Bundle events -->
     <logger name="Events.Bundle" level="TRACE"/>
 
@@ -22,6 +29,7 @@
     <logger name="com.my" level="DEBUG" />
 
     <root level="ERROR">
+        <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
 </configuration>
