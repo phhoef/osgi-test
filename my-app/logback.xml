@@ -1,0 +1,27 @@
+<configuration scan="true" scanPeriod="5 seconds">
+
+    <!-- defined a console append -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>myApp.log</file>
+        <append>true</append>
+        <immediateFlush>true</immediateFlush>
+
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- log all Bundle events -->
+    <logger name="Events.Bundle" level="TRACE"/>
+
+    <!-- log WARN Framework service events of bundles whose BSN starts with `org.eclipse.osgi` (guess who that is?) -->
+    <logger name="Events.Service.org.eclipse.osgi" level="WARN"/>
+
+    <logger name="org.apache" level="WARN" />
+    <!-- log DEBUG Service events for bundles whose BSN starts with `com.pernexas` -->
+    <logger name="com.my" level="DEBUG" />
+
+    <root level="ERROR">
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

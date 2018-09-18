@@ -8,6 +8,11 @@ index: target/index.xml
     osgi.identity;filter:='(osgi.identity=com.my.app.rest-service)',\
     osgi.identity;filter:='(osgi.identity=com.my.app.api)'
 
+-runproperties:\
+    org.osgi.service.http.port=9090,\
+    logback.configurationFile=file:${.}/logback.xml,\
+    eclipse.log.enabled=false
+
 -runfw: org.eclipse.osgi
 
 -runee: JavaSE-1.8

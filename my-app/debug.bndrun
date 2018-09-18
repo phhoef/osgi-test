@@ -7,7 +7,10 @@ test-index: target/test-index.xml;name="my-app Test"
 
 -runproperties: \
 	osgi.console=,\
-	osgi.console.enable.builtin=false
+	osgi.console.enable.builtin=false,\
+	org.osgi.service.http.port=9090,\
+	logback.configurationFile=file:${.}/logback.xml,\
+    eclipse.log.enabled=false
 
 -runrequires.debug: osgi.identity;filter:='(osgi.identity=org.apache.felix.webconsole)',\
  osgi.identity;filter:='(osgi.identity=org.apache.felix.webconsole.plugins.ds)',\
@@ -16,7 +19,6 @@ test-index: target/test-index.xml;name="my-app Test"
  osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)'
  
 -runbundles: \
-	org.apache.felix.logback;version='[1.0.0,1.0.1)',\
 	com.my.app.api;version='[1.0.0,1.0.1)',\
 	com.my.app.cmis-repository;version='[1.0.0,1.0.1)',\
 	com.my.app.rest-service;version='[1.0.0,1.0.1)',\
@@ -45,4 +47,6 @@ test-index: target/test-index.xml;name="my-app Test"
 	org.apache.chemistry.opencmis.chemistry-opencmis-commons-api;version='[1.1.0,1.1.1)',\
 	osgi.cmpn;version='[4.3.1,4.3.2)',\
 	stax2-api;version='[3.1.4,3.1.5)',\
-	woodstox-core-asl;version='[4.4.1,4.4.2)'
+	woodstox-core-asl;version='[4.4.1,4.4.2)',\
+    ch.qos.logback.classic;version='[1.2.3,1.2.4)',\
+    ch.qos.logback.core;version='[1.2.3,1.2.4)'
