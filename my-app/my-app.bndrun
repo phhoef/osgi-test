@@ -5,13 +5,18 @@ index: target/index.xml
 -resolve.effective: active
 
 -runrequires: \
+	osgi.identity;filter:='(osgi.identity=com.my.app.my-app)',\
     osgi.identity;filter:='(osgi.identity=com.my.app.rest-service)',\
-    osgi.identity;filter:='(osgi.identity=com.my.app.api)'
+    osgi.identity;filter:='(osgi.identity=com.my.app.api)',\
+    osgi.identity;filter:='(osgi.identity=org.apache.aries.jmx)',\
+    osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
+    osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)'
 
 -runproperties:\
     org.osgi.service.http.port=9090,\
     logback.configurationFile=file:${.}/logback.xml,\
-    eclipse.log.enabled=false
+    eclipse.log.enabled=false,\
+    osgi.console=
 
 -runfw: org.eclipse.osgi
 
@@ -45,4 +50,10 @@ index: target/index.xml
 	org.osgi.util.function;version='[1.1.0,1.1.1)',\
 	org.osgi.util.promise;version='[1.1.0,1.1.1)',\
 	stax2-api;version='[3.1.4,3.1.5)',\
-	woodstox-core-asl;version='[4.4.1,4.4.2)'
+	woodstox-core-asl;version='[4.4.1,4.4.2)',\
+	com.my.app.my-app;version='[1.0.0,1.0.1)',\
+	org.apache.aries.jmx;version='[1.1.5,1.1.6)',\
+	org.apache.aries.util;version='[1.1.1,1.1.2)',\
+	org.apache.felix.gogo.command;version='[1.0.2,1.0.3)',\
+	org.apache.felix.gogo.runtime;version='[1.1.0,1.1.1)',\
+	org.apache.felix.gogo.shell;version='[1.1.0,1.1.1)'

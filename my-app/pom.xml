@@ -44,6 +44,26 @@
             <artifactId>debug-bundles</artifactId>
             <type>pom</type>
         </dependency>
+        <dependency>
+          <groupId>org.apache.aries.jmx</groupId>
+          <artifactId>org.apache.aries.jmx</artifactId>
+          <version>1.1.5</version>
+        </dependency>
+        <dependency>
+		  <groupId>org.apache.felix</groupId>
+		  <artifactId>org.apache.felix.gogo.command</artifactId>
+		  <version>1.0.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.felix</groupId>
+		  <artifactId>org.apache.felix.gogo.shell</artifactId>
+		  <version>1.1.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.felix</groupId>
+		  <artifactId>org.apache.felix.gogo.runtime</artifactId>
+		  <version>1.1.0</version>
+		</dependency>
     </dependencies>
 
     <build>
