@@ -14,6 +14,10 @@ Then, you can install the `my-app-rest` feature, installing under the hood `my-a
 karaf@root()> feature:install my-app-rest
 ```
 
+By default, the REST service is available on http://localhost:8181/cxf/repository
+
+You can also see the WADL: http://localhost:8181/cxf/repository/_wadl
+
 ## Monitoring 
 
 Karaf already provides a bunch of MBeans accessible via JConsole (local process or remote URL).
