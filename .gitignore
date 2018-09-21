@@ -1,5 +1,6 @@
 .classpath
 .project
 .settings
-my-app/generated
-my-app/myApp.log
+*.iml
+.idea
+target

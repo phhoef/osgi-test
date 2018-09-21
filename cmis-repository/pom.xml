@@ -1,54 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-		<groupId>com.my</groupId>
-		<artifactId>osgi-test</artifactId>
+        <groupId>com.my</groupId>
+        <artifactId>osgi-test</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>com.my.app</groupId>
     <artifactId>cmis-repository</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-    <description>The CMIS Repository DS component - built using OSGi enRoute R7</description>
+    <packaging>bundle</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>org.osgi.enroute</groupId>
-            <artifactId>osgi-api</artifactId>
-            <type>pom</type>
+            <groupId>com.my.app</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.osgi.enroute</groupId>
-            <artifactId>test-bundles</artifactId>
-            <type>pom</type>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi.cmpn</artifactId>
         </dependency>
-        <dependency>
-			<groupId>com.my.app</groupId>
-			<artifactId>api</artifactId>
-			<version>1.0-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.chemistry.opencmis</groupId>
             <artifactId>chemistry-opencmis-client-api</artifactId>
             <version>1.1.0</version>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Expected to inherit configuration from a parent enRoute 
-                pom. This includes -contract definitions and maven-jar-plugin setup -->
             <plugin>
-                <groupId>biz.aQute.bnd</groupId>
-                <artifactId>bnd-maven-plugin</artifactId>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Export-Package>!*</Export-Package>
+                        <Import-Package>*</Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>src/main/cfg/com.my.app.repository.cfg</file>
+                                    <type>cfg</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
+
 </project>

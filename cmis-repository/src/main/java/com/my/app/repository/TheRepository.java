@@ -12,49 +12,58 @@ import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisUnauthorizedException;
+import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component(service = IRepository.class, immediate = true)
+@Component(
+        name = "com.my.app.repository",
+        service = IRepository.class,
+        immediate = true)
 public class TheRepository implements IRepository
 {
-    private static final String SERVICE_URL = "<THE_URL>/cmis/versions/1.1/browser"; // TODO USE CONFIG
 
-    @Reference(cardinality = ReferenceCardinality.MANDATORY, policy = ReferencePolicy.STATIC)
+    @Reference
     private SessionFactory _sessionFactory;
+
     private Session _session;
+
+    @Activate
+    public void activate(ComponentContext componentContext) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put(SessionParameter.REPOSITORY_ID, "repoID");
+        // user credentials
+        params.put(SessionParameter.USER, "theUser");
+        params.put(SessionParameter.PASSWORD, "thePassword");
+
+        String url = (componentContext.getProperties().get("service.url") != null) ? componentContext.getProperties().get("service.url").toString() : "default";
+
+        // connection settings
+        params.put(SessionParameter.BROWSER_URL, url);
+        params.put(SessionParameter.BINDING_TYPE, BindingType.BROWSER.value());
+        params.put(SessionParameter.BROWSER_SUCCINCT, Boolean.toString(true));
+
+        try
+        {
+            _session = _sessionFactory.createSession(params);
+            _session.getDefaultContext().setCacheEnabled(true);
+        }
+        catch(CmisUnauthorizedException cue)
+        {
+            throw new RepositoryUnauthorizedException(cue.getMessage(), cue);
+        }
+    }
 
     protected Session getSession() throws RepositoryUnauthorizedException
     {
         if(_session == null)
         {
-            // default factory implementation
-            Map<String, String> params = new HashMap<String, String>();
 
-            params.put(SessionParameter.REPOSITORY_ID, "repoID");
-            // user credentials
-            params.put(SessionParameter.USER, "theUser");
-            params.put(SessionParameter.PASSWORD, "thePassword");
-
-            // connection settings
-            params.put(SessionParameter.BROWSER_URL, SERVICE_URL);
-            params.put(SessionParameter.BINDING_TYPE, BindingType.BROWSER.value());
-            params.put(SessionParameter.BROWSER_SUCCINCT, Boolean.toString(true));
-
-            try
-            {
-                _session = _sessionFactory.createSession(params);
-                _session.getDefaultContext().setCacheEnabled(true);
-            }
-            catch(CmisUnauthorizedException cue)
-            {
-                throw new RepositoryUnauthorizedException(cue.getMessage(), cue);
-            }
         }
 
         return _session;

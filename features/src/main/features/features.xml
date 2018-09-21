@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="my-app" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
+
+    <repository>mvn:org.apache.cxf.karaf/apache-cxf/3.2.6/xml/features</repository>
+
+    <feature name="my-app-api" version="${project.version}">
+        <bundle>mvn:com.my.app/api/${project.version}</bundle>
+    </feature>
+
+    <feature name="my-app-chemistry" version="${project.version}">
+        <bundle>mvn:org.codehaus.woodstox/stax2-api/3.1.4</bundle>
+        <bundle>mvn:org.codehaus.woodstox/woodstox-core-asl/4.4.0</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.okio/1.11.0_1</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.okhttp/3.9.1_2</bundle>
+        <bundle>mvn:org.apache.chemistry.opencmis/chemistry-opencmis-osgi-client/1.1.0</bundle>
+        <capability>
+            osgi.service;objectClass=org.apache.chemistry.opencmis.client.api.SessionFactory;effective:=active
+        </capability>
+    </feature>
+
+    <feature name="my-app-repository" version="${project.version}">
+        <feature>scr</feature>
+        <feature version="${project.version}">my-app-api</feature>
+        <feature prerequisite="true">my-app-chemistry</feature>
+        <bundle>mvn:com.my.app/cmis-repository/${project.version}</bundle>
+    </feature>
+
+    <feature name="my-app-rest" version="${project.version}">
+        <feature>my-app-repository</feature>
+        <feature dependency="true">http</feature>
+        <requirement>osgi.service;effective:=active;filter:=(objectClass=org.osgi.service.http.HttpService)</requirement>
+        <feature dependency="true">aries-blueprint</feature>
+        <feature version="3.2.6">cxf</feature>
+        <bundle dependency="true">mvn:com.fasterxml.jackson.core/jackson-core/2.9.4</bundle>
+        <bundle dependency="true">mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.4</bundle>
+        <bundle dependency="true">mvn:com.fasterxml.jackson.core/jackson-databind/2.9.4</bundle>
+        <bundle dependency="true">mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/2.9.4</bundle>
+        <bundle dependency="true">mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.9.4</bundle>
+        <bundle>mvn:com.my.app/rest-service/${project.version}</bundle>
+    </feature>
+
+</features>
